@@ -1,0 +1,87 @@
+$marginActiveCard : 50px;
+$marginInactiveCard: -150px;
+$marginOnHover: -100px;
+@mixin flex($direction, $justify, $align){
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $justify;
+    align-items: $align;
+}
+@mixin card($margin){
+    .card{
+        @include flex(column, initial, initial);
+        gap:10px;
+        border-radius: 8px;
+        width: 316px;
+        height: 200px;
+        margin-bottom: $margin;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        position: relative;
+        .logo{
+            align-self: flex-end;
+            max-width: 50px;
+            max-height: 50px;
+            margin-top: 10px;
+            margin-right: 10px;
+        }
+        .icons{
+            margin-left: 20px; 
+            .chip{
+                max-width: 35px;
+                max-height: 35px;
+                margin-left: 10px;
+            }
+        }
+        .blip{
+            max-width: 35px;
+            max-height: 35px;
+            margin-left: 10px;
+        }
+        p{
+            color: #C0C0C0;
+            font-family: 'Inconsolata';
+        }
+        .cardNumber{
+            text-align: center;
+            word-spacing: 10px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .textBox{
+            @include flex(initial, space-between, center);
+            .textGroup{
+                margin: 20px 10px;
+                .cardLabel{
+                    font-size: 8px;
+                }
+                .cardHolder{
+                    font-weight: bold;
+        
+                }
+                .validThru{
+                    font-weight: bold;
+                }
+            }
+        }
+        &.Visa{
+            background: linear-gradient(90deg, rgba(180,162,58,1) 0%, rgba(119,113,78,1) 83%, rgba(126,121,90,1) 100%);
+        }
+        &.Mastercard{
+            background: linear-gradient(90deg, rgba(56,61,101,1) 0%, rgba(42,144,144,1) 83%, rgba(15,42,42,1) 100%);
+        }
+        &.AmericanExpress{
+            background: linear-gradient(90deg, rgba(112,113,122,1) 0%, rgba(47,57,57,1) 83%, rgba(49,50,45,1) 100%);
+
+        }
+    }
+
+}
+@mixin filter{
+    border-radius: 8px;
+    width: 316px;
+    height: 200px;
+    position: absolute;
+    background: black;
+    opacity: 50%;
+
+}

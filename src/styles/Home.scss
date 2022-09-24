@@ -1,0 +1,127 @@
+@import './partials.scss';
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: rgb(222, 222, 222);
+}
+body {
+    display: flex;
+    justify-content: center;
+    background: radial-gradient(circle, rgb(111, 148, 190) 0%, rgba(15,40,70,1) 100%)
+}
+.App{
+    @include flex(column, initial, center);
+    max-width: 450px;
+    min-height: 100vh;
+    .activeCard{
+        @include card($marginActiveCard);
+        .card{
+            cursor: pointer;
+        }
+        .magStripe{
+            background: black;
+            height: 40px;
+            width: 100%;
+            margin-top: 20px; 
+        }
+        .cvv{
+            height: 30px;
+            background: white;
+            width: 70%;
+            margin-left: 10px;
+            text-align: right;
+            margin-top: 10px;
+            p{
+                color: black;
+            }
+        }
+        .filter{
+            display: none;
+            .flipIcon{
+                font-size: 80px;
+                fill: white;
+                
+            }
+        }
+        &:hover{
+            .filter{
+                @include flex(column, center, center);
+                @include filter();
+            }
+        }
+    }
+    .notActiveCards{
+        @include flex(column, initial, center);
+        @include card($marginInactiveCard);
+        .card{
+            .filter{
+                display: none; 
+                .openBox{
+                    @include flex(column, center, center);
+                    align-self: center;
+                    cursor: pointer;
+                    .openIcon{
+                        font-size: 80px;
+                        fill: white;
+                        &:hover{
+                            font-size: 100px;
+                            p{
+                                display: initial;
+                            }
+                        }
+                    }
+                    p{
+                        display: none;
+                    }
+                    &:hover{
+                        p{
+                            display: initial;
+                        }
+                    }
+                }
+                .deleteBox{
+                    @include flex(initial, center, center);
+                    cursor: pointer;
+                    .deleteIcon{
+                        font-size: 30px;
+                        fill: white;
+                    }
+                    p{
+                        display: none;
+                        font-size: 20px;
+                        font-weight: bold;
+                        background: white;
+                        
+                    }
+                    &:hover{
+                        padding: 2%;
+                        background:white;
+                        border-radius: 3px;
+                        .deleteIcon{
+                            font-size: 50px;
+                            fill: rgb(171, 12, 12);
+                        }
+                        p{
+                            color:rgb(171, 12, 12);
+                            display: initial;
+                        }
+                    }    
+
+                }
+            }
+            &:hover{
+                z-index: 1;
+                .filter{
+                    @include flex(column, center, flex-start);
+                    @include filter();
+                }
+            }
+        }
+    }
+
+    .addCardBtn{
+        width: 300px;
+        margin-top: 200px;
+    }
+}
