@@ -1,16 +1,18 @@
 import visaLogo from '../images/visa-logo.png'
 import mastercardLogo from '../images/mastercard-logo.png'
 import amexLogo from '../images/american-express-logo.png'
+import placeHolder from '../images/placeholder-logo.png'
 import chip from '../images/chip.png'
 import blip from '../images/blip.png'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setActiveCard } from '../redux/userSlice'
+import { setActiveCard, deActivateCard, deleteCard } from '../redux/userSlice'
 import SyncIcon from '@mui/icons-material/Sync';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
-import OpenWithOutlinedIcon from '@mui/icons-material/OpenWithOutlined';
+import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
+import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 const Card = (props) => {
-    const { active, cardHolder, cardNumber, cvv, month, year, vendor } = props;
+    const { id, active, cardHolder, cardNumber, cvv, month, year, vendor } = props;
     const { activeCard } = useSelector(state => state.user)
     const dispatch = useDispatch();
     const [logo, setLogo] = useState()
@@ -20,6 +22,9 @@ const Card = (props) => {
             setShowBack(false)
         }
         switch(vendor){
+            case '': 
+                setLogo(placeHolder)
+                break;
             case 'Visa':
                 setLogo(visaLogo)
                 break;
@@ -32,32 +37,45 @@ const Card = (props) => {
         }
     }, [activeCard, vendor])
     
-    const handleCardClick = () => {
-        if(!active){
+    const flipCard = () => {
+        setShowBack(!showBack);
+    }
+    const activateCard = () => {
+        console.log('card clicked')
             dispatch(setActiveCard(props))
-           
-        }
-        else{
-            setShowBack(!showBack)
-        }
+    }
+    const closeCard = () => {
+        dispatch(deActivateCard())
+    }
+    const removeCard = () => {
+        console.log('trying to delete')
+        dispatch(deleteCard(id))
     }
 
     return (
-        <div className={`card ${vendor}`} onClick={handleCardClick}>
-            <div className='filter'>
+        <div className={`card ${vendor}`}>
+            <div className={id >= 0? 'filter' : 'previewFilter'}>
             {active? 
                 <>
+                    <div onClick={flipCard} className="flipBox">
                     <SyncIcon className='flipIcon'/>
                     <p>Click to flip card</p>
+                    </div>
+                    {id >= 0 && 
+                        <div onClick={closeCard} className="closeBox">
+                        <p>Close Card</p>
+                        <KeyboardDoubleArrowDownIcon className='closeIcon' />
+                        </div>
+                    }
                 </>:
                 <>
-                    <div className='openBox'>
-                    <OpenWithOutlinedIcon className='openIcon'/>
-                    <p>Click to open card</p>
+                    <div onClick={activateCard} className='openBox'>
+                        <KeyboardDoubleArrowUpIcon className='openIcon'/>
+                        <p>Click to view card</p>
                     </div>
-                    <div className="deleteBox" >
-                    <DeleteOutlinedIcon className='deleteIcon' />
-                    <p>DELETE</p>
+                    <div onClick={removeCard} className="deleteBox" >
+                        <DeleteOutlinedIcon className='deleteIcon' />
+                        <p>DELETE</p>
                     </div>
                 </>
                 }

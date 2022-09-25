@@ -24,13 +24,21 @@ const userSlice = createSlice({
         setActiveCard: (state, {payload}) => {
             if(state.cards.length > 0){
                 state.cards = state.cards.filter((card) => card.id !== payload.id)
+                console.log(state.cards)
             }
             if(state.activeCard){
-            //   state.cards.push({...state.activeCard, active: false}) 
               state.cards = [...state.cards, {...state.activeCard, active: false}]
             }
             
             state.activeCard = {...payload, active: true}
+        },
+        deActivateCard: (state) => {
+            state.cards = [...state.cards, {...state.activeCard, active: false}]
+            state.activeCard = null
+        },
+        deleteCard: (state, {payload}) => {
+            console.log(payload)
+            state.cards = state.cards.filter((card) => card.id !== payload)
         }
 
     },
@@ -50,7 +58,7 @@ const userSlice = createSlice({
     }
 })
 
-export const { setActiveCard, addCard } = userSlice.actions;
+export const { setActiveCard, addCard, deActivateCard, deleteCard } = userSlice.actions;
 
 export default userSlice.reducer
 

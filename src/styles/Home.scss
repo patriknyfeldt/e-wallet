@@ -14,10 +14,19 @@ body {
     @include flex(column, initial, center);
     max-width: 450px;
     min-height: 100vh;
+    .emptyHeading{
+        margin-top: 30vh;
+    }
+    .noActivatedCard{
+        min-height: 30vh;
+        @include flex(initial, center, center);
+    }
     .activeCard{
-        @include card($marginActiveCard);
-        .card{
-            cursor: pointer;
+        @include card($marginActiveCard, $shadowActivecard);
+        margin-top: 10px;
+        margin-bottom: 10px;
+        h3{
+            text-align: center;
         }
         .magStripe{
             background: black;
@@ -36,16 +45,65 @@ body {
                 color: black;
             }
         }
+        .previewFilter{
+            cursor: pointer;
+            display: none;
+            .flipBox{
+                @include flex(column, center, center);
+                .flipIcon{
+                    font-size: 80px;
+                    fill: white;
+                }
+            }
+        }
         .filter{
             display: none;
-            .flipIcon{
-                font-size: 80px;
-                fill: white;
-                
+            .flipBox{
+                @include flex(initial, center, center);
+                cursor: pointer;
+                align-self: flex-start;
+                p{
+                    display: none;
+                }
+                .flipIcon{
+                    font-size: 30px;
+                    fill: white;
+                }
+                &:hover{
+                    .flipIcon{
+                        font-size: 32px;
+                    }
+                    p{
+                        display: initial;
+                    }
+                }
             }
+            .closeBox{
+                @include flex(column, center, center);
+                cursor: pointer;
+                margin-top: 30px;
+                align-self: center;
+                .closeIcon{
+                    font-size: 80px;
+                    fill: white;
+                }
+                p{
+                    display: none;
+                }
+                &:hover{
+                    p{
+                        display: initial;
+                    }
+                }
+            }
+
         }
         &:hover{
             .filter{
+                @include flex(column, flex-start, center);
+                @include filter();
+            }
+            .previewFilter{
                 @include flex(column, center, center);
                 @include filter();
             }
@@ -53,7 +111,8 @@ body {
     }
     .notActiveCards{
         @include flex(column, initial, center);
-        @include card($marginInactiveCard);
+        @include card($marginInactiveCard, $shadowInactiveCard);
+        margin-top: 10px;
         .card{
             .filter{
                 display: none; 
@@ -65,7 +124,6 @@ body {
                         font-size: 80px;
                         fill: white;
                         &:hover{
-                            font-size: 100px;
                             p{
                                 display: initial;
                             }
@@ -83,19 +141,20 @@ body {
                 .deleteBox{
                     @include flex(initial, center, center);
                     cursor: pointer;
+                    margin-left: 10px;
                     .deleteIcon{
                         font-size: 30px;
                         fill: white;
                     }
                     p{
                         display: none;
-                        font-size: 20px;
+                        font-size: 18px;
                         font-weight: bold;
                         background: white;
-                        
+                        padding-right: 15px;
                     }
                     &:hover{
-                        padding: 2%;
+                        padding: 1%;
                         background:white;
                         border-radius: 3px;
                         .deleteIcon{
@@ -121,7 +180,6 @@ body {
     }
 
     .addCardBtn{
-        width: 300px;
-        margin-top: 200px;
+        @include button($navBtnColor);
     }
 }

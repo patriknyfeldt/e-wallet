@@ -1,0 +1,50 @@
+@import './partials.scss';
+
+form {
+    @include flex(column, center, center);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+    label{
+        font-size: 18px;
+    }
+    input{
+        padding: 10px;
+        width: 220px;
+        border: none;
+        height: 32px;
+    }
+    .dateBox{
+        @include flex(initial, center, initial);
+        width: 80%;
+        .dateGroup{
+            @include flex(column, space-between, center);
+        }
+    }
+
+    select{
+        height: 32px;
+        padding: 0 5px;
+    }
+    input, select{
+        box-shadow: inset 3px 3px 3px #42424a;
+        font-size: 16px;
+        color: rgb(134, 119, 119);
+        // font-family: 'Inconsolata';
+        font-weight: bold;
+    }
+    option{
+        color: rgb(134, 119, 119);
+        font-weight: bold;
+    }
+    .errorMsg{
+        color: rgb(171, 12, 12);
+    }
+    .submitBtn{
+        @include button($submitBtnColor);
+    }
+}
+.walletBtn{
+    @include button($navBtnColor);
+}

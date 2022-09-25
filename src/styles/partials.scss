@@ -1,22 +1,43 @@
-$marginActiveCard : 50px;
-$marginInactiveCard: -150px;
+$marginActiveCard : 0;
+$marginInactiveCard: -160px;
 $marginOnHover: -100px;
+$shadowActivecard: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+$shadowInactiveCard:rgba(0, 0, 0, 0.24) 0px 3px 8px;
+$navBtnColor: rgba(4, 31, 46, 0.484);
+$submitBtnColor: rgba(225, 65, 65, 0.724);
+
+@mixin button($color){
+    height: 36px;
+    width: 120px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 2px;
+    background: $color;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 3px;
+    font-size: 16px;
+    font-weight: 600;
+    &:hover{
+        cursor: pointer;
+        box-shadow: inset rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    }
+}
 @mixin flex($direction, $justify, $align){
     display: flex;
     flex-direction: $direction;
     justify-content: $justify;
     align-items: $align;
 }
-@mixin card($margin){
+@mixin card($margin, $shadow){
     .card{
         @include flex(column, initial, initial);
         gap:10px;
         border-radius: 8px;
-        width: 316px;
-        height: 200px;
+        width: 300px;
+        height: 190px;
         margin-bottom: $margin;
-        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        box-shadow: $shadow;
         position: relative;
+        margin-top: 10px;
         .logo{
             align-self: flex-end;
             max-width: 50px;
@@ -50,7 +71,7 @@ $marginOnHover: -100px;
         .textBox{
             @include flex(initial, space-between, center);
             .textGroup{
-                margin: 20px 10px;
+                margin: 8px 15px;
                 .cardLabel{
                     font-size: 8px;
                 }
@@ -78,8 +99,8 @@ $marginOnHover: -100px;
 }
 @mixin filter{
     border-radius: 8px;
-    width: 316px;
-    height: 200px;
+    width: 300px;
+    height: 190px;
     position: absolute;
     background: black;
     opacity: 50%;
