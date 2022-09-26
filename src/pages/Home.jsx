@@ -70,7 +70,7 @@ const Home = () => {
         <>
         {cards.length > 0 && !activeCard && 
         <div className='noActivatedCard'>
-            <h3>Click on a card to active</h3>
+            <h3>Click on a card to activate</h3>
         </div>}
         {user && <Cards {...user}/>}
         </>
