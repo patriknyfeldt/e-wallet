@@ -11,20 +11,20 @@ import SyncIcon from '@mui/icons-material/Sync';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
+
 const Card = (props) => {
+
     const { id, active, cardHolder, cardNumber, cvv, month, year, vendor } = props;
-    const { activeCard } = useSelector(state => state.user)
+    const { activeCard, cards } = useSelector(state => state.user)
     const dispatch = useDispatch();
     const [logo, setLogo] = useState()
     const [showBack, setShowBack] = useState(false);
+
     useEffect(() => {
         if(activeCard){
             setShowBack(false)
         }
         switch(vendor){
-            case '': 
-                setLogo(placeHolder)
-                break;
             case 'Visa':
                 setLogo(visaLogo)
                 break;
@@ -34,6 +34,8 @@ const Card = (props) => {
             case 'AmericanExpress':
                 setLogo(amexLogo)
                 break
+            default: 
+                setLogo(placeHolder)
         }
     }, [activeCard, vendor])
     
@@ -41,14 +43,12 @@ const Card = (props) => {
         setShowBack(!showBack);
     }
     const activateCard = () => {
-        console.log('card clicked')
-            dispatch(setActiveCard(props))
+        dispatch(setActiveCard(props))
     }
     const closeCard = () => {
         dispatch(deActivateCard())
     }
     const removeCard = () => {
-        console.log('trying to delete')
         dispatch(deleteCard(id))
     }
 
@@ -73,10 +73,12 @@ const Card = (props) => {
                         <KeyboardDoubleArrowUpIcon className='openIcon'/>
                         <p>Click to view card</p>
                     </div>
+                    {(cards.length > 1 || (activeCard && cards.length > 0)) &&
                     <div onClick={removeCard} className="deleteBox" >
                         <DeleteOutlinedIcon className='deleteIcon' />
                         <p>DELETE</p>
                     </div>
+                    }
                 </>
                 }
                 </div>
@@ -84,7 +86,7 @@ const Card = (props) => {
             <>
             <img className='logo' src={logo} alt={`${vendor} logo`} />
             <div className='icons'>
-            <img className="chip" src={chip} alt="chip image" />
+            <img className="chip" src={chip} alt="chip" />
             <img className="blip" src={blip} alt="tap to pay icon" />
             </div>
             <p className="cardNumber">{cardNumber}</p>

@@ -4,6 +4,7 @@ import AddCard from "./pages/AddCard";
 import Home from "./pages/Home";
 import WebFont from 'webfontloader';
 import { useEffect } from 'react';
+
 function App() {
   useEffect(() => {
     WebFont.load({

@@ -8,7 +8,7 @@
 body {
     display: flex;
     justify-content: center;
-    background: radial-gradient(circle, rgb(111, 148, 190) 0%, rgba(15,40,70,1) 100%)
+    background: radial-gradient(circle, rgb(111, 148, 190) 0%, rgb(13, 38, 69) 100%)
 }
 .App{
     @include flex(column, initial, center);

@@ -2,21 +2,28 @@ import '../styles/AddCard.scss'
 import { useForm } from "react-hook-form";
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addCard } from "../redux/userSlice";
 import { useNavigate } from "react-router-dom";
 import Card from "../components/Card";
 
 const AddCard = () => {
-    
+
     const navigate = useNavigate()
     const dispatch = useDispatch()     
+    const { cards, user, activeCard } = useSelector((state) => state.user)
+    const defaultValues = {
+      cardNumber: 'XXXX XXXX XXXX XXXX',
+      cardHolder: user? `${user.name.first} ${user.name.last}`: '',
+      cvv: 'XXX',
+      vendor: '',
+      month: '',
+      year: ''
+    }  
+    const [showForm, setShowForm] = useState(true);
+    const [currentValues, setCurrentvalues] = useState({...defaultValues, active: true});
 
-    const { cards, user } = useSelector((state) => state.user)
-    const onNavigate = (page) => {
-        navigate(page)
-    }
     const schema = yup.object().shape({
         cardNumber:yup.string()
         .required("Please add a card number")
@@ -43,27 +50,21 @@ const AddCard = () => {
         .required("Please pic a year")
     })
 
-    const defaultValues = {
-        cardNumber: 'XXXX XXXX XXXX XXXX',
-        cardHolder: user? `${user.name.first} ${user.name.last}`: '',
-        cvv: 'XXX',
-        vendor: '',
-        month: '',
-        year: ''
-    }
-
     const { register, handleSubmit, setValue, getValues, reset, formState: {errors, isSubmitSuccessful} } = useForm({
-        resolver: yupResolver(schema),
-        defaultValues
+      resolver: yupResolver(schema),
+      defaultValues
     });
-
-    const [currentValues, setCurrentvalues] = useState({...defaultValues, active: true});
 
     const onSubmit = (data) => {
         dispatch(addCard({...data, active: false}))
         setCurrentvalues({...defaultValues, active: true })
     }
+    
     useEffect(() => {
+        if((cards.length === 3 && activeCard) || (cards.length === 4 && !activeCard)){
+            setShowForm(false)
+        }
+
         if(isSubmitSuccessful){
             reset()
         }
@@ -120,7 +121,7 @@ const AddCard = () => {
         <div className="activeCard previewCard">
         <Card {...currentValues} />
         </div>
-
+        {showForm? 
         <form onChange={(e) => handleFormInput(e)} onSubmit={handleSubmit(onSubmit)}>
             <label htmlFor="cardNumber">CARD NUMBER</label>
             <input type="text" name="cardNumber" onKeyDown={(e) => handleKeyDown(e, 'cardNumber')} onFocus={() => clearOnFocus('cardNumber')} onInput={(e) => handleInput(e, 'cardNumber')} {...register("cardNumber")} />
@@ -159,8 +160,10 @@ const AddCard = () => {
             </div>
             <button className='submitBtn' type="submit">Submit</button>
         </form>
-        <button className="walletBtn" onClick={() => onNavigate('/')}>View Wallet</button>        
-
+        :
+            <h3 id='emptyHeading'>Your wallet is full. You need to remove a card before adding another.</h3>
+        }
+        <button className="walletBtn" onClick={() => navigate('/')}>View Wallet</button>        
         </>
      );
 }

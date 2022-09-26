@@ -12,7 +12,7 @@ const userSlice = createSlice({
             user: null,
             cards: [],
             activeCard: null,
-            currentId: 0,
+            currentId: 1,
             status: ''
     },
     reducers: {
@@ -24,7 +24,6 @@ const userSlice = createSlice({
         setActiveCard: (state, {payload}) => {
             if(state.cards.length > 0){
                 state.cards = state.cards.filter((card) => card.id !== payload.id)
-                console.log(state.cards)
             }
             if(state.activeCard){
               state.cards = [...state.cards, {...state.activeCard, active: false}]
@@ -37,24 +36,21 @@ const userSlice = createSlice({
             state.activeCard = null
         },
         deleteCard: (state, {payload}) => {
-            console.log(payload)
             state.cards = state.cards.filter((card) => card.id !== payload)
         }
 
     },
     extraReducers: {
-        [getUser.pending]: (state, action) => {
+        [getUser.pending]: (state) => {
             state.status = 'loading data'
         },
         [getUser.fulfilled]: (state, {payload}) => {
             state.user = payload;
             state.status = 'Found data'
         },
-        [getUser.rejected]: (state, action) => {
+        [getUser.rejected]: (state) => {
             state.status = 'Failed to fetch data'
         }
-
-
     }
 })
 

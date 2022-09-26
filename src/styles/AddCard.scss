@@ -45,6 +45,10 @@ form {
         @include button($submitBtnColor);
     }
 }
+#emptyHeading{
+    margin: 30px;
+    text-align: center;
+}
 .walletBtn{
     @include button($navBtnColor);
 }
