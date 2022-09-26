@@ -59,7 +59,7 @@ const AddCard = () => {
         dispatch(addCard({...data, active: false}))
         setCurrentvalues({...defaultValues, active: true })
     }
-    
+
     useEffect(() => {
         if((cards.length === 3 && activeCard) || (cards.length === 4 && !activeCard)){
             setShowForm(false)
@@ -78,12 +78,12 @@ const AddCard = () => {
     const handleKeyDown = (e, inputType) => {
         let {value} = e.target;
         if(inputType === 'cardNumber'){
-            if(value.length >= 19){
+            if(value.length >= 19 && e.which !== 9 && e.which !== 13){
                 e.preventDefault()
             }    
         }
         else if(inputType === 'cvv'){
-            if(value.length >= 3){
+            if(value.length >= 3 && e.which !== 9 && e.which !== 13){
                 e.preventDefault()
             }
         }
